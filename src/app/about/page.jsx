@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import BK from "../../../public/assets/driss.jpeg";
 
 
 const Aboutpage = () => {
@@ -30,10 +32,11 @@ const Aboutpage = () => {
   >
       <div className="w-full max-w-4xl mx-auto h-auto">
         {/* Intro */}
-        <div className="mb-12 text-center text-black">
+        <div className="lg:flex gap-12">
+        <div className="lg:w-6/12 mb-12 text-black flex justify-center items-start flex-col">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Biography</h1>
           <div>
-          <div className="drop-blur-xl rounded-lg p-6">
+          <div className="drop-blur-xl rounded-lg">
           <p className="">
             Hi, I&#39;m IDRISS BOUKDIR, a full-stack developer passionate about creating seamless digital experiences. Since starting my coding journey in 2020, I&#39;ve worked on various projects, from personal websites to complex web applications. I specialize in building responsive, user-friendly interfaces and scalable server-side systems. Always eager to connect and explore new opportunities in web development, feel free to check out my projects and reach out if you&#39;d like to collaborate.
           </p>
@@ -41,6 +44,22 @@ const Aboutpage = () => {
           </div>
           
           </div>
+        </div>
+        <div className="lg:w-6/12 mb-16 text-center text-black">
+        <div className="relative mask mask-squircle overflow-hidden rounded-md flex justify-start items-start">
+            <Image
+              className="w-full mask mask-squircle object-contain"
+              src={BK}
+              alt="Driss Boukdir"
+              width={0}
+              height={0}
+              quality={100}
+              objectFit="contain"
+              layout="responsive"
+            />
+            <div className={`absolute inset-0 mask mask-squircle bg-gradient-to-t from-violet-700/45 to-transparent opacity-85`}></div>
+          </div>
+        </div>
         </div>
         {/* Skills */}
         <motion.div

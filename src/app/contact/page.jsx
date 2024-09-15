@@ -7,6 +7,7 @@ import { IoLogoGithub } from "react-icons/io5";
 import { FaLinkedin } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
+
 const Contactpage = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -14,37 +15,39 @@ const Contactpage = () => {
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    // Replace with your EmailJS configuration
-    const serviceId = 'YOUR_SERVICE_ID';
-    const templateId = 'YOUR_TEMPLATE_ID';
-    const userId = 'YOUR_USER_ID';
-
-    const data = {
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-    };
-
-    window.emailjs
-      .sendForm(serviceId, templateId, userId, data)
-      .then((res) => {
-        console.log('Email sent successfully!', res.status, res.text);
-        alert('Your message has been sent successfully!'); // Notify user
-      })
-      .catch((err) => {
-        console.error('Error sending email:', err);
-        alert('An error occurred. Please try again later.'); // Handle errors
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (response.ok) {
+        setSubmitMessage('Your message has been sent successfully!');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitMessage('An error occurred. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitMessage('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,7 +61,7 @@ const Contactpage = () => {
         <div>
           <h1 className="text-gray-800 text-3xl font-extrabold">Let&#39;s Talk</h1>
           <p className="text-sm text-gray-500 mt-4">
-          Have a big idea or brand to develop and need help? Reach out! We&#39;d love to hear about your project and provide assistance.
+            Have a big idea or brand to develop and need help? Reach out! We&#39;d love to hear about your project and provide assistance.
           </p>
 
           <div className="mt-12">
@@ -66,16 +69,15 @@ const Contactpage = () => {
             <ul className="mt-4">
               <li className="flex items-center">
                 <div className="bg-[#e6e6e6cf] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                  {/* Email icon */}
                   <Link href="mailto:drissboukdirbk@gmail.com">
-          < BiLogoGmail  className="hover:text-2xl transition-all duration-200" />
-        </Link>
+                    <BiLogoGmail className="hover:text-2xl transition-all duration-200" />
+                  </Link>
                 </div>
                 <a href="javascript:void(0)" className="text-[#080d13] text-sm ml-4">
                   <small className="block">Mail</small>
                   <Link href="mailto:drissboukdirbk@gmail.com">
-                  <p className='font-bold'>drissboukdirbk@gmail.com</p>
-        </Link>
+                    <p className='font-bold'>drissboukdirbk@gmail.com</p>
+                  </Link>
                 </a>
               </li>
             </ul>
@@ -83,20 +85,20 @@ const Contactpage = () => {
 
           <div className="mt-12">
             <h2 className="text-gray-800 text-base font-bold mb-3">Socials</h2>
-            <div className="ml-auto gap-5 text-2xl cursor-pointer  flex md:flex text-black font-bold ">
-        <Link href="mailto:drissboukdirbk@gmail.com">
-          <AiFillInstagram  className="hover:text-2xl transition-all duration-200" />
-        </Link>
-        <Link href="https://github.com/Idriss-Bk">
-          <IoLogoGithub className="hover:text-2xl transition-all duration-200" />
-        </Link>
-        <Link href="https://www.linkedin.com/in/idriss-boukdir-5120a6280/?original_referer=https%3A%2F%2Fwww%2Elinkedin%2Ecom%2F&originalSubdomain=ma">
-          <FaLinkedin className="hover:text-2xl transition-all duration-200" />
-        </Link>
-        <Link href="https://www.linkedin.com/in/idriss-boukdir-5120a6280/?original_referer=https%3A%2F%2Fwww%2Elinkedin%2Ecom%2F&originalSubdomain=ma">
-          <FaXTwitter className="hover:text-2xl transition-all duration-200" />
-        </Link>
-      </div>
+            <div className="ml-auto gap-5 text-2xl cursor-pointer flex md:flex text-black font-bold ">
+              <Link href="mailto:drissboukdirbk@gmail.com">
+                <AiFillInstagram className="hover:text-2xl transition-all duration-200" />
+              </Link>
+              <Link href="https://github.com/Idriss-Bk">
+                <IoLogoGithub className="hover:text-2xl transition-all duration-200" />
+              </Link>
+              <Link href="https://www.linkedin.com/in/idriss-boukdir-5120a6280/?original_referer=https%3A%2F%2Fwww%2Elinkedin%2Ecom%2F&originalSubdomain=ma">
+                <FaLinkedin className="hover:text-2xl transition-all duration-200" />
+              </Link>
+              <Link href="https://www.linkedin.com/in/idriss-boukdir-5120a6280/?original_referer=https%3A%2F%2Fwww%2Elinkedin%2Ecom%2F&originalSubdomain=ma">
+                <FaXTwitter className="hover:text-2xl transition-all duration-200" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -140,9 +142,11 @@ const Contactpage = () => {
           <button
             type="submit"
             className="text-black bg-gradient-to-b from-blue-100 to-red-100 hover:scale-105 hover:transition duration-200 rounded-md text-sm px-4 font-bold py-3 w-full !mt-6"
+            disabled={isSubmitting}
           >
-            Send
+            {isSubmitting ? 'Sending...' : 'Send'}
           </button>
+          {submitMessage && <p className="text-center mt-4">{submitMessage}</p>}
         </form>
       </div>
     </motion.div>
