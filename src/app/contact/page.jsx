@@ -61,7 +61,7 @@ const Contactpage = () => {
         <div>
           <h1 className="text-gray-800 text-3xl font-extrabold">Let&#39;s Talk</h1>
           <p className="text-sm text-gray-500 mt-4">
-            Have a big idea or brand to develop and need help? Reach out! We&#39;d love to hear about your project and provide assistance.
+            Have a big idea or brand to develop and need help? Reach out! We&#39;d love to hear about your project and provide assistance..
           </p>
 
           <div className="mt-12">
